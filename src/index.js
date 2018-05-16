@@ -1,11 +1,8 @@
 import React from 'react';
+import ReCaptcha from './ReCaptcha';
 
-class ReactRecaptcha extends React.Component {
-  render() {
-    return(
-      <h1>Our Component </h1>
-    )
-  }
+module.exports = {
+  ReCaptcha: ReCaptcha
 }
 
 export default ReactRecaptcha;
