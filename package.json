@@ -1,5 +1,5 @@
 {
-  "name": "react-recaptcha-google-test",
+  "name": "react-recaptcha-google",
   "version": "1.1.0",
   "description": "",
   "main": "src/index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codeep/react-recaptcha.git"
+    "url": "git+https://github.com/codeep/react-recaptcha-google.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/codeep/react-recaptcha/issues"
+    "url": "https://github.com/codeep/react-recaptcha-google/issues"
   },
-  "homepage": "https://github.com/codeep/react-recaptcha#readme",
+  "homepage": "https://github.com/codeep/react-recaptcha-google#readme",
   "dependencies": {
     "react": "^15.6.2",
     "webpack": "^2.7.0"
