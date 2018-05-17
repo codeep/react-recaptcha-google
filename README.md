@@ -1,1 +1,1 @@
-# react-recaptcha
+# react-recaptcha-google
