@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -470,7 +470,7 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(12);
+var _propTypes = __webpack_require__(13);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -630,17 +630,18 @@ var ReCaptcha = function (_Component) {
                     'data-onloadcallbackname': this.props.onloadCallbackName,
                     'data-verifycallbackname': this.props.verifyCallbackName
                 });
-            }
+            } else {
 
-            return _react2.default.createElement('div', { id: this.props.elementID,
-                className: 'g-recaptcha',
-                'data-sitekey': this.props.sitekey,
-                'data-theme': this.props.theme,
-                'data-type': this.props.type,
-                'data-size': this.props.size,
-                'data-badge': this.props.badge,
-                'data-tabindex': this.props.tabindex
-            });
+                return _react2.default.createElement('div', { id: this.props.elementID,
+                    className: 'g-recaptcha',
+                    'data-sitekey': this.props.sitekey,
+                    'data-theme': this.props.theme,
+                    'data-type': this.props.type,
+                    'data-size': this.props.size,
+                    'data-badge': this.props.badge,
+                    'data-tabindex': this.props.tabindex
+                });
+            }
         }
     }]);
 
@@ -660,8 +661,29 @@ exports.default = ReCaptcha;
 
 
 Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var loadRecaptcha = function loadRecaptcha() {
+    var script = document.createElement("script");
+    script.async = true;
+    script.defer = true;
+    script.src = "https://www.google.com/recaptcha/api.js";
+    document.body.appendChild(script);
+};
+
+exports.default = loadReCaptcha;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.loadReCaptcha = exports.ReCaptcha = undefined;
 
 var _react = __webpack_require__(4);
 
@@ -671,12 +693,17 @@ var _ReCaptcha = __webpack_require__(6);
 
 var _ReCaptcha2 = _interopRequireDefault(_ReCaptcha);
 
+var _loadReCaptcha = __webpack_require__(7);
+
+var _loadReCaptcha2 = _interopRequireDefault(_loadReCaptcha);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = _ReCaptcha2.default;
+exports.ReCaptcha = _ReCaptcha2.default;
+exports.loadReCaptcha = _loadReCaptcha2.default;
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -773,7 +800,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -840,7 +867,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -905,7 +932,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -921,10 +948,10 @@ module.exports = function() {
 var emptyFunction = __webpack_require__(1);
 var invariant = __webpack_require__(2);
 var warning = __webpack_require__(5);
-var assign = __webpack_require__(8);
+var assign = __webpack_require__(9);
 
 var ReactPropTypesSecret = __webpack_require__(3);
-var checkPropTypes = __webpack_require__(9);
+var checkPropTypes = __webpack_require__(10);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -1455,7 +1482,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1480,11 +1507,11 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(11)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(12)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(10)();
+  module.exports = __webpack_require__(11)();
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))

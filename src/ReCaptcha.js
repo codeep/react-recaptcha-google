@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
@@ -126,7 +126,7 @@ class ReCaptcha extends Component {
                      data-verifycallbackname={this.props.verifyCallbackName}
                 />
             );
-        }
+        } else {
 
         return (
             <div id={this.props.elementID}
@@ -139,6 +139,7 @@ class ReCaptcha extends Component {
                  data-tabindex={this.props.tabindex}
             />
         );
+      }
     }
 }
 

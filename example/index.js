@@ -1,0 +1,24 @@
+import React, { Component } from 'react';
+import ExampleReCaptcha from './ExampleReCaptcha';
+
+class Example extends Component {
+
+  componentWillMount() {
+    loadRecaptcha();
+  }
+
+  render() {
+    const captchaKey = 'your_key';
+
+    return (
+      <div className="Example">
+        <ExampleReCaptcha/>
+        <header>
+          <h1>Thanks for using `react-recaptcha-google`</h1>
+        </header>
+      </div>
+    );
+  }
+}
+
+export default Example;

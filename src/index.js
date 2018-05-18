@@ -1,4 +1,5 @@
 import React from 'react';
 import ReCaptcha from './ReCaptcha';
+import loadReCaptcha from './loadReCaptcha';
 
-export default ReCaptcha;
+export { ReCaptcha, loadReCaptcha };
