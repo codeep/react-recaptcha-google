@@ -12,6 +12,8 @@ There are two components that you need to use.
 
 ### 1. Use `loadReCaptcha()` to initialize the ReCaptcha
 
+This function should be imported and called in the main (parent) component of your app. We recommend calling it in `componentDidMount()` of `App.js`.
+
 ```
 import { loadReCaptcha } from 'react-recaptcha-google'
 
@@ -21,9 +23,6 @@ componentDidMount() {
   loadReCaptcha();
 }
 ```
-
-
-#### This function should be imported and called in the main (parent) component of your app. We recommend calling it in `componentDidMount()` of `App.js`.
 
 
 ### 2. Use `ReCaptcha` to integrate ReCaptcha in a particular component
@@ -40,7 +39,7 @@ class ExampleComponent extends Component {
 
   componentDidMount() {
     if (this.captchaListing) {
-        console.log("started")
+        console.log("started, just a second...")
         this.captchaListing.reset();
         this.captchaListing.execute();
     }
@@ -55,21 +54,31 @@ class ExampleComponent extends Component {
 
   verifyCallback(recaptchaToken) {
     // Here you will get the final recaptchaToken!!!  
-    console.log(recaptchaToken)
+    console.log(recaptchaToken, "<= your recaptcha token")
   }
 
   render() {
     return (
-      <ReCaptcha
-          ref={(el) => {this.captchaListing = el;}}
-          size="invisible"
-          render="explicit"
-          sitekey="your_site_key"
-          onloadCallback={this.onLoadRecaptcha}
-          verifyCallback={this.verifyCallback}
-      />
+      <div>
+        <ReCaptcha
+            ref={(el) => {this.captchaListing = el;}}
+            size="invisible"
+            render="explicit"
+            sitekey="your_site_key"
+            onloadCallback={this.onLoadRecaptcha}
+            verifyCallback={this.verifyCallback}
+        />
+        <code>
+          1. Add <strong>your site key</strong> in the ReCaptcha component. <br/>
+          2. Check <strong>console</strong> to see the token.
+        </code>
+      </div>
     );
   };
 };
 
+export default ExampleComponent;
+
 ```
+
+P.S. It will open the ReCaptcha window only when there are some doubts by Google; otherwise, it will automatically generate the token.
