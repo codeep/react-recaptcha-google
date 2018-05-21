@@ -38,17 +38,17 @@ class ExampleComponent extends Component {
   }
 
   componentDidMount() {
-    if (this.captchaListing) {
+    if (this.captchaDemo) {
         console.log("started, just a second...")
-        this.captchaListing.reset();
-        this.captchaListing.execute();
+        this.captchaDemo.reset();
+        this.captchaDemo.execute();
     }
   }
 
   onLoadRecaptcha() {
-      if (this.captchaListing) {
-          this.captchaListing.reset();
-          this.captchaListing.execute();
+      if (this.captchaDemo) {
+          this.captchaDemo.reset();
+          this.captchaDemo.execute();
       }
   }
 
@@ -60,8 +60,9 @@ class ExampleComponent extends Component {
   render() {
     return (
       <div>
+        {/* You can replace captchaDemo ref with whatever works for your component */}
         <ReCaptcha
-            ref={(el) => {this.captchaListing = el;}}
+            ref={(el) => {this.captchaDemo = el;}}
             size="invisible"
             render="explicit"
             sitekey="your_site_key"
