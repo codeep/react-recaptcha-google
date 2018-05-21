@@ -7,4 +7,3 @@ module.exports = {
   ReCaptcha: ReCaptcha,
   loadReCaptcha: loadReCaptcha
 }
-// export { ReCaptcha, loadReCaptcha };

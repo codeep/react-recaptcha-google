@@ -1,4 +1,4 @@
-const loadRecaptcha = () => {
+const loadReCaptcha = () => {
     const script = document.createElement("script");
     script.async = true;
     script.defer = true;
