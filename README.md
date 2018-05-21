@@ -2,6 +2,8 @@
 
 This component is created in order to make the experience of integrating Google ReCaptcha into React apps easier and smoother.
 
+P.S. It will open the ReCaptcha window only when there are some doubts by Google; otherwise, it will automatically generate the token.
+
 ## Installation
 
 `npm install react-recaptcha-google --save`
@@ -81,5 +83,3 @@ class ExampleComponent extends Component {
 export default ExampleComponent;
 
 ```
-
-P.S. It will open the ReCaptcha window only when there are some doubts by Google; otherwise, it will automatically generate the token.
