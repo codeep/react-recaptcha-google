@@ -663,7 +663,7 @@ exports.default = ReCaptcha;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var loadRecaptcha = function loadRecaptcha() {
+var loadReCaptcha = function loadReCaptcha() {
     var script = document.createElement("script");
     script.async = true;
     script.defer = true;
@@ -680,11 +680,6 @@ exports.default = loadReCaptcha;
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.loadReCaptcha = exports.ReCaptcha = undefined;
-
 var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
@@ -699,8 +694,10 @@ var _loadReCaptcha2 = _interopRequireDefault(_loadReCaptcha);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.ReCaptcha = _ReCaptcha2.default;
-exports.loadReCaptcha = _loadReCaptcha2.default;
+module.exports = {
+  ReCaptcha: _ReCaptcha2.default,
+  loadReCaptcha: _loadReCaptcha2.default
+};
 
 /***/ }),
 /* 9 */
