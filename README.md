@@ -1,1 +1,75 @@
 # react-recaptcha-google
+
+This component is created in order to make the experience of integrating Google ReCaptcha into React apps easier and smoother.
+
+## Installation
+
+`npm install react-recaptcha-google --save`
+
+## Usage
+
+There are two components that you need to use.
+
+### 1. Use `loadReCaptcha()` to initialize the ReCaptcha
+
+```
+import { loadReCaptcha } from 'react-recaptcha-google'
+
+...
+
+componentDidMount() {
+  loadReCaptcha();
+}
+```
+
+
+#### This function should be imported and called in the main (parent) component of your app. We recommend calling it in `componentDidMount()` of `App.js`.
+
+
+### 2. Use `ReCaptcha` to integrate ReCaptcha in a particular component
+```
+import React, { Component } from 'react';
+import { ReCaptcha } from 'react-recaptcha-google'
+
+class ExampleComponent extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this);
+    this.verifyCallback = this.verifyCallback.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.captchaListing) {
+        console.log("started")
+        this.captchaListing.reset();
+        this.captchaListing.execute();
+    }
+  }
+
+  onLoadRecaptcha() {
+      if (this.captchaListing) {
+          this.captchaListing.reset();
+          this.captchaListing.execute();
+      }
+  }
+
+  verifyCallback(recaptchaToken) {
+    // Here you will get the final recaptchaToken!!!  
+    console.log(recaptchaToken)
+  }
+
+  render() {
+    return (
+      <ReCaptcha
+          ref={(el) => {this.captchaListing = el;}}
+          size="invisible"
+          render="explicit"
+          sitekey="your_site_key"
+          onloadCallback={this.onLoadRecaptcha}
+          verifyCallback={this.verifyCallback}
+      />
+    );
+  };
+};
+
+```

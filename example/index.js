@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ExampleReCaptcha from './ExampleReCaptcha';
+import { loadReCaptcha } from '../src';
 
 class Example extends Component {
 

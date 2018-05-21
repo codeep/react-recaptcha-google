@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ReCaptcha, loadReCaptcha } from '../src';
+import { ReCaptcha } from '../src';
 
 class ExampleReCaptcha extends Component {
   constructor(props, context) {
@@ -29,14 +29,12 @@ class ExampleReCaptcha extends Component {
   }
 
   render() {
-    const captchaKey = 'your_key';
-
     return (
         <ReCaptcha
             ref={(el) => {this.captchaDemo = el;}}
             size="invisible"
             render="explicit"
-            sitekey={captchaKey}
+            sitekey="your_site_key"
             onloadCallback={this.onLoadRecaptcha}
             verifyCallback={this.verifyCallback}
         />
