@@ -1,7 +1,17 @@
 {
   "name": "react-recaptcha-google",
   "version": "1.0.8",
-  "description": "",
+  "description": "This library helps to integrate google recaptcha into your react project easily. ",
+  "keywords": [
+    "react",
+    "react.js",
+    "react-component",
+    "ReCaptcha",
+    "g-recaptcha",
+    "invisible-recaptcha",
+    "visible-recaptcha",
+    "recaptcha-token"
+  ],
   "main": "dist/index.js",
   "scripts": {
     "start": "webpack --watch",
@@ -11,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/codeep/react-recaptcha-google.git"
   },
-  "author": "",
+  "author": "Codeep",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/codeep/react-recaptcha-google/issues"
