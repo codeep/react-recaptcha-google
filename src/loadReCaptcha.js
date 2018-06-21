@@ -1,8 +1,6 @@
-const loadReCaptcha = () => {
+const loadReCaptcha = (siteKey) => {
     const script = document.createElement("script");
-    script.async = true;
-    script.defer = true;
-    script.src = "https://www.google.com/recaptcha/api.js";
+    script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
     document.body.appendChild(script);
 };
 

@@ -484,21 +484,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var propTypes = {
     className: _propTypes2.default.string,
-    onloadCallbackName: _propTypes2.default.string,
     elementID: _propTypes2.default.string,
-    onloadCallback: _propTypes2.default.func,
     verifyCallback: _propTypes2.default.func,
     expiredCallback: _propTypes2.default.func,
-    render: _propTypes2.default.string,
-    sitekey: _propTypes2.default.string,
-    theme: _propTypes2.default.string,
-    type: _propTypes2.default.string,
-    verifyCallbackName: _propTypes2.default.string,
-    expiredCallbackName: _propTypes2.default.string,
-    size: _propTypes2.default.string,
-    tabindex: _propTypes2.default.string,
-    hl: _propTypes2.default.string,
-    badge: _propTypes2.default.string
+    sitekey: _propTypes2.default.string
 };
 
 var defaultProps = {
@@ -509,13 +498,7 @@ var defaultProps = {
     verifyCallbackName: 'verifyCallback',
     expiredCallback: undefined,
     expiredCallbackName: 'expiredCallback',
-    render: 'onload',
-    theme: 'light',
-    type: 'image',
-    size: 'normal',
-    tabindex: '0',
-    hl: 'en',
-    badge: 'bottomright'
+    render: 'explicit'
 };
 
 var isReady = function isReady() {
@@ -532,8 +515,6 @@ var ReCaptcha = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (ReCaptcha.__proto__ || Object.getPrototypeOf(ReCaptcha)).call(this, props));
 
-        _this._renderGrecaptcha = _this._renderGrecaptcha.bind(_this);
-        _this.reset = _this.reset.bind(_this);
         _this.execute = _this.execute.bind(_this);
         _this.state = {
             ready: isReady(),
@@ -550,19 +531,17 @@ var ReCaptcha = function (_Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             if (!!this.state.ready) {
-                this._renderGrecaptcha();
+                this.execute();
             }
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate(prevProps, prevState) {
-            var _props = this.props,
-                render = _props.render,
-                onloadCallback = _props.onloadCallback;
+            var render = this.props.render;
 
 
-            if (render === 'explicit' && onloadCallback && this.state.ready && !prevState.ready) {
-                this._renderGrecaptcha();
+            if (this.state.ready && !prevState.ready) {
+                this.execute();
             }
         }
     }, {
@@ -571,25 +550,21 @@ var ReCaptcha = function (_Component) {
             clearInterval(readyCheck);
         }
     }, {
-        key: 'reset',
-        value: function reset() {
+        key: 'execute',
+        value: function execute() {
             var _state = this.state,
                 ready = _state.ready,
                 widget = _state.widget;
+            var _props = this.props,
+                sitekey = _props.sitekey,
+                verifyCallback = _props.verifyCallback,
+                action = _props.action;
 
-            if (ready && widget !== null) {
-                grecaptcha.reset(widget);
-            }
-        }
-    }, {
-        key: 'execute',
-        value: function execute() {
-            var _state2 = this.state,
-                ready = _state2.ready,
-                widget = _state2.widget;
-
-            if (ready && widget !== null) {
-                grecaptcha.execute(widget);
+            console.log('executing, ready:', ready);
+            if (ready) {
+                window.grecaptcha.execute(sitekey, { action: action }).then(function (token) {
+                    verifyCallback(token);
+                });
             }
         }
     }, {
@@ -604,42 +579,15 @@ var ReCaptcha = function (_Component) {
             }
         }
     }, {
-        key: '_renderGrecaptcha',
-        value: function _renderGrecaptcha() {
-            this.state.widget = grecaptcha.render(this.props.elementID, {
-                sitekey: this.props.sitekey,
-                callback: this.props.verifyCallback ? this.props.verifyCallback : undefined,
-                theme: this.props.theme,
-                type: this.props.type,
-                size: this.props.size,
-                tabindex: this.props.tabindex,
-                hl: this.props.hl,
-                badge: this.props.badge,
-                'expired-callback': this.props.expiredCallback ? this.props.expiredCallback : undefined
-            });
-
-            if (this.props.onloadCallback) {
-                this.props.onloadCallback();
-            }
-        }
-    }, {
         key: 'render',
         value: function render() {
-            if (this.props.render === 'explicit' && this.props.onloadCallback) {
+            if (this.state.ready) {
                 return _react2.default.createElement('div', { id: this.props.elementID,
-                    'data-onloadcallbackname': this.props.onloadCallbackName,
                     'data-verifycallbackname': this.props.verifyCallbackName
                 });
             } else {
-
                 return _react2.default.createElement('div', { id: this.props.elementID,
-                    className: 'g-recaptcha',
-                    'data-sitekey': this.props.sitekey,
-                    'data-theme': this.props.theme,
-                    'data-type': this.props.type,
-                    'data-size': this.props.size,
-                    'data-badge': this.props.badge,
-                    'data-tabindex': this.props.tabindex
+                    className: 'g-recaptcha'
                 });
             }
         }
@@ -663,11 +611,9 @@ exports.default = ReCaptcha;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var loadReCaptcha = function loadReCaptcha() {
+var loadReCaptcha = function loadReCaptcha(siteKey) {
     var script = document.createElement("script");
-    script.async = true;
-    script.defer = true;
-    script.src = "https://www.google.com/recaptcha/api.js";
+    script.src = "https://www.google.com/recaptcha/api.js?render=" + siteKey;
     document.body.appendChild(script);
 };
 
