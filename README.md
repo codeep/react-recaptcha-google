@@ -98,9 +98,56 @@ For having a visible ReCaptcha, you should make two minor changes on the above-m
 1. Replace the size prop value `invisible` (see the imported ReCaptcha component) with either `normal` or `compact`. Those will add a checkbox with 'I am not a robot' label.
 2. Remove `this.[captchaRef].execute()` lines from your code.
 
-
-
 ##### Optional props
 
 * `data-theme` - you can add `theme` prop with a value of either `"dark"` or `"light"`(default) to control the background theme of the visible ReCaptcha (when size is `normal` or `compact`)
 * `data-badge` - you can send `badge` prop with one of the following values: bottomright (default), bottomleft, inline. This will allowyou to reposition the ReCaptcha badge.
+
+### 3. Save Google response into state or inside a hidden field
+
+```
+  verifyCallback(recaptchaToken) {
+    const {
+      change
+    } = this.props;
+    // inside hidden field
+    change('recaptchaResponse', recaptchaToken);
+    // or state
+    this.setState('recaptchaResponse', recaptchaToken)
+  }
+  
+  render() {
+  ...
+  return {
+     <Field
+       component={TextField}
+       name="recaptchaResponse"
+       type="hidden"
+       disabled/>
+       ...
+       }
+```
+
+### 4. Implement code server side to validate the response
+
+```
+async check(recaptchaResponse: string, remoteAddress: string): Promise<boolean> {
+ const secretKey = "";
+    return new Promise<boolean>((resolve, reject) => {
+      const verificationUrl = 'https://www.google.com/recaptcha/api/siteverify?secret=' + secretKey + '&response=' + recaptchaResponse + '&remoteip=' + remoteAddress;
+      request(verificationUrl
+        , function(error, response, body) {
+          if (error) {
+            return reject(false);
+          }
+          if (response.statusCode !== 200) {
+            return reject(false);
+          }
+
+          body = JSON.parse(body);
+          const passCaptcha = !(body.success !== undefined && !body.success);
+          resolve(passCaptcha);
+        });
+    });
+  }
+```
