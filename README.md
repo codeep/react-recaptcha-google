@@ -131,6 +131,8 @@ For having a visible ReCaptcha, you should make two minor changes on the above-m
 ### 4. Implement code server side to validate the response
 
 ```
+import * as request from 'request'; // from "web-request": "^1.0.7",
+
 async check(recaptchaResponse: string, remoteAddress: string): Promise<boolean> {
  const secretKey = "";
     return new Promise<boolean>((resolve, reject) => {
