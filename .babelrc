@@ -1,7 +1,8 @@
 {
-  "presets": ["env"],
+  "presets": ["@babel/env"],
   "plugins": [
-    "transform-object-rest-spread",
-    "transform-react-jsx"
+    "@babel/proposal-object-rest-spread",
+    "@babel/proposal-class-properties",
+    "@babel/transform-react-jsx"
   ]
 }
