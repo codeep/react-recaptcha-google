@@ -10,12 +10,11 @@ class App extends Component {
   recaptcha = React.createRef();
   componentDidMount() {
     loadReCaptcha();
-    // console.log(window.grecaptcha);
-    // this.recaptcha.current.reset();
   }
   componentDidUpdate() {
     if (this.state.ready) {
       this.recaptcha.current.reset();
+      this.recaptcha.current.execute();
     }
   }
   render() {
@@ -33,9 +32,12 @@ class App extends Component {
           sitekey={process.env.REACT_APP_GOOGLE_RECAPTCHA_SITEKEY}
           onSuccess={token => console.log(token)}
           onError={console.error.bind(console)}
+          onExpired={console.error.bind(console)}
           onLoad={() => {
+            console.log("loaded");
             this.setState({ ready: true });
           }}
+          size="invisible"
         />
       </div>
     );

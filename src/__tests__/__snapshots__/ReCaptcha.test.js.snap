@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReCaptcha execute for invisible 1`] = `
+Array [
+  Array [
+    undefined,
+  ],
+]
+`;
+
+exports[`ReCaptcha onLoad, initially not loaded 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "mock-div",
+    },
+    Object {
+      "badge": "bottomright",
+      "callback": undefined,
+      "error-callback": undefined,
+      "expired-callback": undefined,
+      "sitekey": "test",
+      "size": "normal",
+      "tabindex": 0,
+      "theme": "light",
+      "type": undefined,
+    },
+    false,
+  ],
+]
+`;
+
+exports[`ReCaptcha onLoad, preloaded 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "mock-div",
+    },
+    Object {
+      "badge": "bottomright",
+      "callback": undefined,
+      "error-callback": undefined,
+      "expired-callback": undefined,
+      "sitekey": "test",
+      "size": "normal",
+      "tabindex": 0,
+      "theme": "light",
+      "type": undefined,
+    },
+    false,
+  ],
+]
+`;
+
+exports[`ReCaptcha render 1`] = `
+<div
+  data-badge="bottomright"
+  data-sitekey="test"
+  data-size="normal"
+  data-tabindex="0"
+  data-theme="light"
+/>
+`;
+
+exports[`ReCaptcha reset 1`] = `
+Array [
+  Array [
+    undefined,
+  ],
+]
+`;

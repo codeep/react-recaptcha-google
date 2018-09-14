@@ -12,11 +12,6 @@
     "visible-recaptcha",
     "recaptcha-token"
   ],
-  "main": "dist/index.js",
-  "scripts": {
-    "start": "webpack --watch",
-    "build": "webpack"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/codeep/react-recaptcha-google.git"
@@ -27,18 +22,47 @@
     "url": "https://github.com/codeep/react-recaptcha-google/issues"
   },
   "homepage": "https://github.com/codeep/react-recaptcha-google#readme",
-  "dependencies": {
-    "react": "^16.4 || ^16.3"
-  },
+  "main": "dist/react-recaptcha-google.js",
+  "umd:main": "dist/react-recaptcha-google.umd.js",
+  "module": "dist/react-recaptcha-google.m.js",
+  "source": "src/index.js",
+  "files": [
+    "dist",
+    "type-definitions/react-recaptcha-google.js.flow",
+    "README.md",
+    "LICENSE"
+  ],
   "devDependencies": {
     "@babel/cli": "7.0.0",
-    "@babel/core": "7.0.0",
-    "@babel/plugin-proposal-class-properties": "7.0.0",
-    "@babel/plugin-proposal-object-rest-spread": "7.0.0",
-    "@babel/plugin-transform-react-jsx": "7.0.0",
+    "@babel/core": "^7.0.1",
     "@babel/preset-env": "7.0.0",
-    "babel-loader": "^8.0.0",
-    "webpack": "4.17.1",
-    "webpack-cli": "3.1.0"
+    "@babel/preset-react": "7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "flow-bin": "^0.81.0",
+    "jest": "^23.6.0",
+    "microbundle": "^0.6.0",
+    "prettier": "^1.13.7",
+    "prop-types": "^15.6.0",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "react-test-renderer": "^16.3.0",
+    "regenerator-runtime": "^0.12.1"
+  },
+  "peerDependencies": {
+    "prop-types": ">= 15.6.0",
+    "react": ">= 15.6.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "prettier": "prettier {{__tests__,src,type-definitions}/**/*.js,README.md}",
+    "format": "yarn prettier --write",
+    "test:types:flow": "flow check .",
+    "build": "yarn microbundle -o dist/ --name react-recaptcha-google --jsx React.createElement",
+    "prepublishOnly": "yarn build"
+  },
+  "jest": {
+    "testRegex": "(/__tests__/.*(test))\\.js$",
+    "coverageDirectory": "./coverage/"
   }
 }
