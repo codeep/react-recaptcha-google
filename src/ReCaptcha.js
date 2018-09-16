@@ -1,149 +1,121 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, createRef } from "react";
+import PropTypes from "prop-types";
 
-const propTypes = {
-    className: PropTypes.string,
-    onloadCallbackName: PropTypes.string,
-    elementID: PropTypes.string,
-    onloadCallback: PropTypes.func,
-    verifyCallback: PropTypes.func,
-    expiredCallback: PropTypes.func,
-    render: PropTypes.string,
-    sitekey: PropTypes.string,
-    theme: PropTypes.string,
-    type: PropTypes.string,
-    verifyCallbackName: PropTypes.string,
-    expiredCallbackName: PropTypes.string,
-    size: PropTypes.string,
-    tabindex: PropTypes.string,
-    hl: PropTypes.string,
-    badge: PropTypes.string,
-};
-
-const defaultProps = {
-    elementID: 'g-recaptcha',
-    onloadCallback: undefined,
-    onloadCallbackName: 'onloadCallback',
-    verifyCallback: undefined,
-    verifyCallbackName: 'verifyCallback',
-    expiredCallback: undefined,
-    expiredCallbackName: 'expiredCallback',
-    render: 'onload',
-    theme: 'light',
-    type: 'image',
-    size: 'normal',
-    tabindex: '0',
-    hl: 'en',
-    badge: 'bottomright',
-};
-
-const isReady = () => typeof window !== 'undefined' && typeof window.grecaptcha !== 'undefined';
-
-let readyCheck;
+const noop = () => undefined;
 
 class ReCaptcha extends Component {
+  static defaultProps = {
+    badge: "bottomright",
+    hl: "en",
+    inherit: true,
+    isolated: false,
+    onError: noop,
+    onExpired: noop,
+    onLoad: noop,
+    onSuccess: noop,
+    size: "normal",
+    tabIndex: 0,
+    theme: "light",
+    type: "image"
+  };
+  static propTypes = {
+    badge: PropTypes.oneOf(["bottomright", "bottomleft", "inline"]),
+    inherit: PropTypes.bool,
+    isolated: PropTypes.bool,
+    onError: PropTypes.func,
+    onExpired: PropTypes.func,
+    onLoad: PropTypes.func,
+    onSuccess: PropTypes.func,
+    sitekey: PropTypes.string,
+    size: PropTypes.oneOf(["compact", "normal", "invisible"]),
+    tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    theme: PropTypes.oneOf(["dark", "light"])
+  };
+  isReady = () =>
+    typeof window !== "undefined" && typeof window.grecaptcha !== "undefined";
 
-    constructor(props) {
-        super(props);
-        this._renderGrecaptcha = this._renderGrecaptcha.bind(this);
-        this.reset = this.reset.bind(this);
-        this.execute = this.execute.bind(this);
-        this.state = {
-            ready: isReady(),
-            widget: null,
-        };
+  readyIntervalId = setInterval(() => this._updateReadyState(), 1000);
+  recaptcha = createRef();
 
-        if (!this.state.ready) {
-            readyCheck = setInterval(this._updateReadyState.bind(this), 1000);
-        }
+  state = {
+    ready: this.isReady()
+  };
+
+  componentWillUnmount() {
+    clearInterval(this.readyIntervalId);
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.ready && this.state.ready) {
+      this.widgetId = grecaptcha.render(
+        this.recaptcha.current,
+        {
+          "error-callback": this.props.onError,
+          "expired-callback": this.props.onExpired,
+          badge: this.props.badge,
+          callback: this.props.onSuccess,
+          isolated: this.props.isolated,
+          sitekey: this.props.sitekey,
+          size: this.props.size,
+          tabindex: this.props.tabIndex,
+          theme: this.props.theme
+        },
+        this.props.inherit
+      );
     }
+  }
 
-    componentDidMount() {
-        if (!!(this.state.ready)) {
-            this._renderGrecaptcha();
-        }
+  reset = () => {
+    grecaptcha.reset(this.widgetId);
+  };
+
+  execute = () => {
+    grecaptcha.execute(this.widgetId);
+  };
+
+  _updateReadyState = () => {
+    if (this.isReady()) {
+      this.setState(() => ({
+        ready: true
+      }));
+      clearInterval(this.readyIntervalId);
+      this.props.onLoad();
     }
+  };
 
-    componentDidUpdate(prevProps, prevState) {
-        const {render, onloadCallback} = this.props;
+  shouldComponentUpdate(nextProps, nextState) {
+    return !this.state.ready && nextState.ready;
+  }
 
-        if (render === 'explicit' && onloadCallback && this.state.ready && !prevState.ready) {
-            this._renderGrecaptcha();
-        }
-    }
+  render() {
+    const {
+      onError,
+      onExpired,
+      onLoad,
+      onSuccess,
+      inherit,
+      isolated,
+      sitekey,
+      theme,
+      type,
+      size,
+      badge,
+      tabIndex,
+      ...rest
+    } = this.props;
 
-    componentWillUnmount() {
-        clearInterval(readyCheck);
-    }
-
-    reset() {
-        const {ready, widget} = this.state;
-        if (ready && widget !== null) {
-            grecaptcha.reset(widget);
-        }
-    }
-
-    execute() {
-        const { ready, widget } = this.state;
-        if (ready && widget !== null) {
-            grecaptcha.execute(widget);
-        }
-    }
-
-    _updateReadyState() {
-        if (isReady()) {
-            this.setState({
-                ready: true,
-            });
-
-            clearInterval(readyCheck);
-        }
-    }
-
-    _renderGrecaptcha() {
-        this.state.widget = grecaptcha.render(this.props.elementID, {
-            sitekey: this.props.sitekey,
-            callback: (this.props.verifyCallback) ? this.props.verifyCallback : undefined,
-            theme: this.props.theme,
-            type: this.props.type,
-            size: this.props.size,
-            tabindex: this.props.tabindex,
-            hl: this.props.hl,
-            badge: this.props.badge,
-            'expired-callback': (this.props.expiredCallback) ? this.props.expiredCallback : undefined,
-        });
-
-        if (this.props.onloadCallback) {
-            this.props.onloadCallback();
-        }
-    }
-
-    render() {
-        if (this.props.render === 'explicit' && this.props.onloadCallback) {
-            return (
-                <div id={this.props.elementID}
-                     data-onloadcallbackname={this.props.onloadCallbackName}
-                     data-verifycallbackname={this.props.verifyCallbackName}
-                />
-            );
-        } else {
-
-        return (
-            <div id={this.props.elementID}
-                 className="g-recaptcha"
-                 data-sitekey={this.props.sitekey}
-                 data-theme={this.props.theme}
-                 data-type={this.props.type}
-                 data-size={this.props.size}
-                 data-badge={this.props.badge}
-                 data-tabindex={this.props.tabindex}
-            />
-        );
-      }
-    }
+    return (
+      <div
+        ref={this.recaptcha}
+        data-sitekey={sitekey}
+        data-theme={theme}
+        data-type={type}
+        data-size={size}
+        data-badge={badge}
+        data-tabindex={tabIndex}
+        {...rest}
+      />
+    );
+  }
 }
-
-ReCaptcha.propTypes = propTypes;
-ReCaptcha.defaultProps = defaultProps;
 
 export default ReCaptcha;
