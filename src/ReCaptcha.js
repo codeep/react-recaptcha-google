@@ -18,29 +18,29 @@ const defaultProps = {
 
 const propTypes = {
   sitekey: PropTypes.string.isRequired,
-  // Optional. The callback function, executed when the user submits a successful response. The g-recaptcha-response token is passed to your callback.
+  /** Optional. The callback function, executed when the user submits a successful response. The g-recaptcha-response token is passed to your callback. */
   onSuccess: PropTypes.func,
-  // Optional. The callback function to be executed once all the dependencies have loaded.
+  /** Optional. The callback function to be executed once all the dependencies have loaded. */
   onLoad: PropTypes.func,
-  // Optional. The callback function, executed when the reCAPTCHA response expires and the user needs to re-verify.
+  /** Optional. The callback function, executed when the reCAPTCHA response expires and the user needs to re-verify. */
   onExpired: PropTypes.func,
-  // Optional. The callback function, executed when reCAPTCHA encounters an error (usually network connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are responsible for informing the user that they should retry.
+  /** Optional. The callback function, executed when reCAPTCHA encounters an error (usually network connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are responsible for informing the user that they should retry. */
   onError: PropTypes.func,
-  // Optional. The tabIndex of the challenge. If other elements in your page use tabIndex, it should be set to make user navigation easier.
+  /** Optional. The tabIndex of the challenge. If other elements in your page use tabIndex, it should be set to make user navigation easier. */
   tabIndex: PropTypes.number,
-  // "invisible" - stands for Invisible reCAPTCHA
-  // "compact", "normal" - stands for I'm not a robot challenge
+  /** "invisible" - stands for Invisible reCAPTCHA
+   *  "compact", "normal" - stands for I'm not a robot challenge */
   size: PropTypes.oneOf(["compact", "normal", "invisible"]),
-  // Works with I'm not a robot challenge
-  // Optional. The color theme of the widget.
+  /** Works with I'm not a robot challenge
+   *  Optional. The color theme of the widget. */
   theme: PropTypes.oneOf(["dark", "light"]),
-  // Works with Invisible reCAPTCHA
-  // Optional. Reposition the reCAPTCHA badge. 'inline' lets you position it with CSS.
+  /** Works with Invisible reCAPTCHA
+   *  Optional. Reposition the reCAPTCHA badge. 'inline' lets you position it with CSS. */
   badge: PropTypes.oneOf(["bottomright", "bottomleft", "inline"]),
-  // Works with Invisible reCAPTCHA
-  // Optional. For plugin owners to not interfere with existing reCAPTCHA installations on a page. If true, this reCAPTCHA instance will be part of a separate ID space.
+  /** Works with Invisible reCAPTCHA
+   *  Optional. For plugin owners to not interfere with existing reCAPTCHA installations on a page. If true, this reCAPTCHA instance will be part of a separate ID space. */
   isolated: PropTypes.bool,
-  // Use existing data-* attributes on the element if the coorsponding parameter is not specified. The values in parameter will take precedence over the attributes.
+  /** Use existing data-* attributes on the element if the coorsponding parameter is not specified. The values in parameter will take precedence over the attributes. */
   inherit: PropTypes.bool
 };
 

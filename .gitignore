@@ -4,3 +4,4 @@ package-lock.json
 *.log
 dist/*.js
 dist/*.js.map
+.docz

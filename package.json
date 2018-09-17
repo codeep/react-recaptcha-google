@@ -39,7 +39,9 @@
     "@babel/preset-react": "7.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
+    "docz": "^0.11.2",
     "flow-bin": "^0.81.0",
+    "gh-pages": "^2.0.0",
     "jest": "^23.6.0",
     "microbundle": "^0.6.0",
     "prettier": "^1.13.7",
@@ -59,7 +61,10 @@
     "format": "yarn prettier --write",
     "test:types:flow": "flow check .",
     "build": "yarn microbundle -o dist/ --name react-recaptcha-google --jsx React.createElement",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "docz:dev": "docz dev",
+    "docz:build": "docz build",
+    "deploy": "gh-pages -d .docz/dist"
   },
   "jest": {
     "testRegex": "(/__tests__/.*(test))\\.js$",
