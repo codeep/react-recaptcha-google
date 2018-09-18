@@ -18,13 +18,14 @@ There are two components that you need to use.
 
 This function should be imported and called in the main (parent) component of your app. We recommend calling it in `componentDidMount()` of `App.js`.
 
-```
-import { loadReCaptcha } from 'react-recaptcha-google'
+```js
+import React, { Component } from "react";
+import { loadReCaptcha } from "react-recaptcha-google";
 
-...
-
-componentDidMount() {
-  loadReCaptcha();
+class App extends Component {
+  componentDidMount() {
+    loadReCaptcha();
+  }
 }
 ```
 
@@ -32,121 +33,105 @@ componentDidMount() {
 
 #### invisible Recaptcha
 
-Create a new component with the following code and give it a try!
+```js
+import React, { Component } from "react";
+import { ReCaptcha } from "react-recaptcha-google";
 
-```
-import React, { Component } from 'react';
-import { ReCaptcha } from 'react-recaptcha-google'
-
-class ExampleComponent extends Component {
-  constructor(props, context) {
-    super(props, context);
-    this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this);
-    this.verifyCallback = this.verifyCallback.bind(this);
-  }
-
-  componentDidMount() {
-    if (this.captchaDemo) {
-        console.log("started, just a second...")
-        this.captchaDemo.reset();
-        this.captchaDemo.execute();
-    }
-  }
-
-  onLoadRecaptcha() {
-      if (this.captchaDemo) {
-          this.captchaDemo.reset();
-          this.captchaDemo.execute();
-      }
-  }
-
-  verifyCallback(recaptchaToken) {
-    // Here you will get the final recaptchaToken!!!
-    console.log(recaptchaToken, "<= your recaptcha token")
+export default class ExampleComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.recaptcha = React.createRef();
   }
 
   render() {
     return (
-      <div>
-        {/* You can replace captchaDemo ref with whatever works for your component */}
-        <ReCaptcha
-            ref={(el) => {this.captchaDemo = el;}}
-            size="invisible"
-            sitekey="your_site_key"
-            onloadCallback={this.onLoadRecaptcha}
-            verifyCallback={this.verifyCallback}
-        />
-        <code>
-          1. Add <strong>your site key</strong> in the ReCaptcha component. <br/>
-          2. Check <strong>console</strong> to see the token.
-        </code>
-      </div>
+      <ReCaptcha
+        ref={this.recaptcha}
+        sitekey={"RECAPTCHA_SITEKEY"}
+        // will be called as soon as available after `execute` call
+        onSuccess={token => console.log(token)}
+        size="invisible"
+        onLoad={() => {
+          // this can trigger image challenge
+          // so it is better to call in when user submits form
+          this.recaptcha.execute();
+        }}
+      />
     );
-  };
-};
-
-export default ExampleComponent;
+  }
+}
 ```
 
 #### Visible / Normal Recaptcha
 
-For having a visible ReCaptcha, you should make two minor changes on the above-mentioned code.
+```js
+import React, { Component } from "react";
+import { ReCaptcha } from "react-recaptcha-google";
 
-1.  Replace the size prop value `invisible` (see the imported ReCaptcha component) with either `normal` or `compact`. Those will add a checkbox with 'I am not a robot' label.
-2.  Remove `this.[captchaRef].execute()` lines from your code.
+export default class ExampleComponent extends Component {
+  render() {
+    return (
+      <ReCaptcha
+        sitekey={"RECAPTCHA_SITEKEY"}
+        // will be called as soon as user passes challenge
+        onSuccess={token => console.log(token)}
+      />
+    );
+  }
+}
+```
 
-##### Optional props
+#### Properties
 
-- `data-theme` - you can add `theme` prop with a value of either `"dark"` or `"light"`(default) to control the background theme of the visible ReCaptcha (when size is `normal` or `compact`)
-- `data-badge` - you can send `badge` prop with one of the following values: bottomright (default), bottomleft, inline. This will allowyou to reposition the ReCaptcha badge.
+| Property  | Type   | Required | Default     | Description                                                                                                                                                                                                                                                        |
+| --------- | ------ | -------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| theme     | Enum   | false    | light       | Works with I'm not a robot challenge Optional. The color theme of the widget.                                                                                                                                                                                      |
+| size      | Enum   | false    | normal      | invisible - stands for Invisible reCAPTCHA "compact", "normal" - stands for I'm not a robot challenge                                                                                                                                                              |
+| tabIndex  | Number | false    | 0           | Optional. The tabIndex of the challenge. If other elements in your page use tabIndex, it should be set to make user navigation easier.                                                                                                                             |
+| badge     | Enum   | false    | bottomright | Works with Invisible reCAPTCHA Optional. Reposition the reCAPTCHA badge. 'inline' lets you position it with CSS.                                                                                                                                                   |
+| isolated  | Bool   | false    | true        | Works with Invisible reCAPTCHA Optional. For plugin owners to not interfere with existing reCAPTCHA installations on a page. If true, this reCAPTCHA instance will be part of a separate ID space.                                                                 |
+| inherit   | Bool   | false    | false       | Use existing data-\* attributes on the element if the coorsponding parameter is not specified. The values in parameter will take precedence over the attributes.                                                                                                   |
+| sitekey   | String | true     |             |                                                                                                                                                                                                                                                                    |
+| onSuccess | Func   | false    |             | Optional. The callback function, executed when the user submits a successful response. The g-recaptcha-response token is passed to your callback.                                                                                                                  |
+| onLoad    | Func   | false    |             | Optional. The callback function to be executed once all the dependencies have loaded.                                                                                                                                                                              |
+| onExpired | Func   | false    |             | Optional. The callback function, executed when the reCAPTCHA response expires and the user needs to re-verify.                                                                                                                                                     |
+| onError   | Func   | false    |             | Optional. The callback function, executed when reCAPTCHA encounters an error (usually network connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are responsible for informing the user that they should retry. |
 
 ### 3. Save Google response into state or inside a hidden field
 
-```
-  verifyCallback(recaptchaToken) {
-    const {
-      change
-    } = this.props;
-    // inside hidden field
-    change('recaptchaResponse', recaptchaToken);
-    // or state
-    this.setState('recaptchaResponse', recaptchaToken)
+```js
+export default class ExampleComponent extends Component {
+  onSuccess(recaptchaToken) {
+    this.setState({recaptchaToken});
   }
-
   render() {
-  ...
-  return {
-     <Field
-       component={TextField}
-       name="recaptchaResponse"
-       type="hidden"
-       disabled/>
-       ...
-       }
+    return (
+      <input
+        type="hidden"
+        name="recaptchaResponse"
+        value={this.state.recaptchaToken} />
+      {/* ... */}
+    )
+  }
+}
 ```
 
 ### 4. Implement code server side to validate the response
 
-```
+```ts
 import * as request from 'request'; // from "web-request": "^1.0.7",
 
-async check(recaptchaResponse: string, remoteAddress: string): Promise<boolean> {
- const secretKey = "";
-    return new Promise<boolean>((resolve, reject) => {
-      const verificationUrl = 'https://www.google.com/recaptcha/api/siteverify?secret=' + secretKey + '&response=' + recaptchaResponse + '&remoteip=' + remoteAddress;
-      request(verificationUrl
-        , function(error, response, body) {
-          if (error) {
-            return reject(false);
-          }
-          if (response.statusCode !== 200) {
-            return reject(false);
-          }
-
-          body = JSON.parse(body);
-          const passCaptcha = !(body.success !== undefined && !body.success);
-          resolve(passCaptcha);
-        });
+check(recaptchaResponse: string, remoteAddress: string): Promise<boolean> {
+  const secretKey = "";
+  return new Promise<boolean>((resolve, reject) => {
+    const verificationUrl = 'https://www.google.com/recaptcha/api/siteverify?secret=' + secretKey + '&response=' + recaptchaResponse + '&remoteip=' + remoteAddress;
+    request(verificationUrl, (error, response, body) => {
+      if (error) return reject(false);
+      if (response.statusCode !== 200) return reject(false);
+      body = JSON.parse(body);
+      const passCaptcha = !!body.success;
+      resolve(passCaptcha);
     });
-  }
+  });
+}
 ```

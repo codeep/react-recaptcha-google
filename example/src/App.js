@@ -13,8 +13,8 @@ class App extends Component {
   }
   componentDidUpdate() {
     if (this.state.ready) {
-      this.recaptcha.current.reset();
-      this.recaptcha.current.execute();
+      // use for size="invisible"
+      // this.recaptcha.current.execute();
     }
   }
   render() {
@@ -24,9 +24,6 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
         <ReCaptcha
           ref={this.recaptcha}
           sitekey={process.env.REACT_APP_GOOGLE_RECAPTCHA_SITEKEY}
@@ -37,7 +34,6 @@ class App extends Component {
             console.log("loaded");
             this.setState({ ready: true });
           }}
-          size="invisible"
         />
       </div>
     );
