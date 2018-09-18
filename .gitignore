@@ -5,3 +5,4 @@ package-lock.json
 dist/*.js
 dist/*.js.map
 .docz
+coverage
