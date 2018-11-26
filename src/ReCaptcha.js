@@ -32,7 +32,7 @@ class ReCaptcha extends Component {
     theme: PropTypes.oneOf(["dark", "light"])
   };
   isReady = () =>
-    typeof window !== "undefined" && typeof window.grecaptcha !== "undefined";
+    typeof window !== "undefined" && typeof window.grecaptcha !== "undefined" && typeof window.grecaptcha.render === 'function';
 
   readyIntervalId = setInterval(() => this._updateReadyState(), 1000);
   recaptcha = createRef();
