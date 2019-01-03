@@ -46,21 +46,23 @@ class ReCaptcha extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (!prevState.ready && this.state.ready) {
-      this.widgetId = grecaptcha.render(
-        this.recaptcha.current,
-        {
-          "error-callback": this.props.onError,
-          "expired-callback": this.props.onExpired,
-          badge: this.props.badge,
-          callback: this.props.onSuccess,
-          isolated: this.props.isolated,
-          sitekey: this.props.sitekey,
-          size: this.props.size,
-          tabindex: this.props.tabIndex,
-          theme: this.props.theme
-        },
-        this.props.inherit
-      );
+      grecaptcha.ready(() => {
+        this.widgetId = grecaptcha.render(
+          this.recaptcha.current,
+          {
+            "error-callback": this.props.onError,
+            "expired-callback": this.props.onExpired,
+            badge: this.props.badge,
+            callback: this.props.onSuccess,
+            isolated: this.props.isolated,
+            sitekey: this.props.sitekey,
+            size: this.props.size,
+            tabindex: this.props.tabIndex,
+            theme: this.props.theme
+          },
+          this.props.inherit
+        );
+      });
     }
   }
 
