@@ -18,7 +18,7 @@ There are two components that you need to use.
 
 This function should be imported and called in the main (parent) component of your app. We recommend calling it in `componentDidMount()` of `App.js`.
 
-```
+```jsx
 import { loadReCaptcha } from 'react-recaptcha-google'
 
 ...
@@ -35,7 +35,7 @@ componentDidMount() {
 
 Create a new component with the following code and give it a try!
 
-```
+```jsx
 import React, { Component } from 'react';
 import { ReCaptcha } from 'react-recaptcha-google'
 
@@ -105,7 +105,7 @@ For having a visible ReCaptcha, you should make two minor changes on the above-m
 
 ### 3. Save Google response into state or inside a hidden field
 
-```
+```jsx
   verifyCallback(recaptchaToken) {
     const {
       change
@@ -130,7 +130,7 @@ For having a visible ReCaptcha, you should make two minor changes on the above-m
 
 ### 4. Implement code server side to validate the response
 
-```
+```jsx
 import * as request from 'request'; // from "web-request": "^1.0.7",
 
 async check(recaptchaResponse: string, remoteAddress: string): Promise<boolean> {
